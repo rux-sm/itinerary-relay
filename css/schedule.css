@@ -947,10 +947,9 @@
 /* Print styles (Legal V1 table + V2 grid) moved to css/print.css */
 
 #driverWeekCard .rux-card__body {
-  padding: var(--rux-space-4);
+  padding-inline: var(--rux-space-4);
   display: flex;
   flex-direction: column;
-  /* overflow: hidden removed to allow child scroll */
 }
 
 .driver-week__wrap {

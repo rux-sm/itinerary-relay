@@ -22,8 +22,8 @@
 
   /* Layout gaps */
   --rux-fld-label-gap:                    8px;
-  --rux-fld-row-gap:                      8px;
-  --rux-fld-col-gap:                      8px;
+  --rux-fld-row-gap:                      var(--rux-space-4);
+  --rux-fld-col-gap:                      var(--rux-space-4);
   --rux-fld-card-gap:                     var(--rux-space-4);
   --rux-fld-section-gap:                  var(--rux-space-3);
 

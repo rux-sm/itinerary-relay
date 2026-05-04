@@ -175,7 +175,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: var(--panel-header-h);
+  height: 57px;
   width: auto;
   flex-shrink: 0;
   padding-inline:var(--rux-space-7);
@@ -184,11 +184,12 @@
 
   position: sticky;
   top: 0;
-  background: color-mix(in srgb, var(--rux-bg-3) 0%, transparent);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: color-mix(in srgb, var(--rux-bg-2) 25%, transparent);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  overflow: hidden;
 
-  border: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--rux-bg-2) 25%, transparent);
   border-radius: var(--rux-radius-9) var(--rux-radius-9) 0 0;
   box-shadow: none;
 }
@@ -225,17 +226,18 @@
   flex-wrap: wrap;
   padding: var(--rux-footer-padding-y) var(--rux-footer-padding-x);
 
-  border: none;
-  border-radius: 0 0 var(--rux-radius-7) var(--rux-radius-7);
 
   z-index: 10;
   position: sticky;
   bottom: 0;
 
- background: color-mix(in srgb, var(--rux-bg-3) 0%, transparent);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+ background: color-mix(in srgb, var(--rux-bg-2) 25%, transparent);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  overflow: hidden;
 
+  border-top: 1px solid color-mix(in srgb, var(--rux-bg-2) 25%, transparent);
+  border-radius: var(--rux-radius-9) var(--rux-radius-9) 0 0;
   box-shadow: none;
 }
 
