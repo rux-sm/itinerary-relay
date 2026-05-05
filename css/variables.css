@@ -160,6 +160,8 @@
   --rux-status-auto-confirmed-alpha: oklch(from var(--rux-color-blue)   l c h / 15%);
   --rux-status-one-way:              oklch(from var(--rux-color-accent) 90% .3 h);
   --rux-status-one-way-alpha:        oklch(from var(--rux-color-accent) l c h / 15%);
+  --rux-status-gray:                 oklch(from var(--rux-color-gray)   90% .3 h);
+  --rux-status-gray-alpha:           oklch(from var(--rux-color-gray)   l c h / 50%);
 
   /* 2C. Text Roles
   ──────────────────────────────────────────────────────────────── */

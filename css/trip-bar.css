@@ -218,13 +218,16 @@
   --tripbar-status-ok-bg: var(--rux-color-red);
 
   &.out-of-service {
-    --tripbar-color: var(--rux-status-red-alpha);
-    background: repeating-linear-gradient(-45deg,
-        color-mix(in srgb, var(--rux-status-red-alpha) 10%, transparent),
-        color-mix(in srgb, var(--rux-status-red-alpha) 10%, transparent) 8px,
-        color-mix(in srgb, var(--rux-status-red-alpha) 50%, transparent) 8px,
-        color-mix(in srgb, var(--rux-status-red-alpha) 50%, transparent) 16px);
-    border: 1px solid color-mix(in srgb, var(--rux-status-red-alpha) 0%, transparent);
+    --tripbar-color: var(--rux-status-gray-alpha);
+    --tripbar-r1-color: oklch(from var(--rux-color-gray) 40% c h);
+    --tripbar-r6-color: oklch(from var(--rux-color-gray) 40% c h);
+    --tripbar-badge-text-color: oklch(from var(--rux-color-gray) 45% c h);
+    background: repeating-linear-gradient(-90deg,
+        color-mix(in srgb, var(--rux-status-gray-alpha) 10%, transparent),
+        color-mix(in srgb, var(--rux-status-gray-alpha) 10%, transparent) 8px,
+        color-mix(in srgb, var(--rux-status-gray-alpha) 30%, transparent) 8px,
+        color-mix(in srgb, var(--rux-status-gray-alpha) 30%, transparent) 16px);
+    border: 1px solid color-mix(in srgb, var(--rux-status-gray-alpha) 0%, transparent);
     border-left: none;
 
     /* Overrides for crisp text and recessed look */
@@ -259,6 +262,11 @@
     .schedule-grid__trip-bar__title {
       font-size: 0.875rem;
       /* 14px */
+    }
+
+    /* Out-of-service trips don't need contract confirmation — suppress red */
+    &.unconfirmed {
+      --trip-accent-color: transparent;
     }
   }
 
