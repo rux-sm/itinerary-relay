@@ -219,10 +219,10 @@
 
   &.out-of-service {
     --tripbar-color: var(--rux-status-gray-alpha);
-    --tripbar-r1-color: oklch(from var(--rux-color-gray) 40% c h);
-    --tripbar-r6-color: oklch(from var(--rux-color-gray) 40% c h);
+    --tripbar-r1-color: oklch(from var(--rux-color-gray) 60% c h);
+    --tripbar-r6-color: oklch(from var(--rux-color-gray) 60% c h);
     --tripbar-badge-text-color: oklch(from var(--rux-color-gray) 45% c h);
-    background: repeating-linear-gradient(-90deg,
+    background: repeating-linear-gradient(-45deg,
         color-mix(in srgb, var(--rux-status-gray-alpha) 10%, transparent),
         color-mix(in srgb, var(--rux-status-gray-alpha) 10%, transparent) 8px,
         color-mix(in srgb, var(--rux-status-gray-alpha) 30%, transparent) 8px,
