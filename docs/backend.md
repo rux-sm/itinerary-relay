@@ -67,6 +67,8 @@
   "reqHotel",
   "reqFuelCard",
   "reqWifi",
+  "drivingHours",
+  "onDutyHours",
   "envelopePickup",
   "envelopeTripContact",
   "envelopeTripPhone",
@@ -884,6 +886,8 @@ const iReqCoDriver = idx(tripsHdr, "reqCoDriver");
 const iReqHotel = idx(tripsHdr, "reqHotel");
 const iReqFuelCard = idx(tripsHdr, "reqFuelCard");
 const iReqWifi = idx(tripsHdr, "reqWifi");
+const iDrivingHours = idx(tripsHdr, "drivingHours");
+const iOnDutyHours  = idx(tripsHdr, "onDutyHours");
 const iCreatedAt = idx(tripsHdr, "createdAt");
 const iUpdatedAt = idx(tripsHdr, "updatedAt");
 const iItineraryPdfUrl = idx(tripsHdr, "itineraryPdfUrl");

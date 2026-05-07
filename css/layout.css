@@ -43,7 +43,6 @@
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
-  /* Keep the app shell as the scroll owner, not .main. */
   flex: 1;
 }
 
@@ -95,18 +94,14 @@
 
 .o-app-layout__main>.rux-card {
   height: auto;
-  /* Match table height; avoid forced stretch. */
   max-height: 100%;
-
   padding: var(--rux-layout-spacing);
   margin: 0;
   display: flex;
   flex-direction: column;
   border-radius: var(--rux-radius-9);
   background: var(--rux-bg-2);
-
   overflow: visible;
-  /* Let the table container own scrolling. */
 }
 
 .o-app-layout__main .schedule-viewport {

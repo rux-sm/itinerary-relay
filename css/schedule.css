@@ -639,7 +639,7 @@
 
 .schedule-grid {
   width: 100%;
-  min-width: 1200px;
+  min-width: 1434px;
   height: auto;
   background: var(--rux-bg-1);
   table-layout: fixed;
@@ -656,6 +656,7 @@
 
 .schedule-grid__col-day {
   width: auto;
+  min-width: 200px;
 }
 
 .schedule-grid__header-cell,

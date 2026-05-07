@@ -873,6 +873,8 @@ function sanitizeWeekResp(resp) {
         // Core text fields
         paymentType: asStr(t?.paymentType),
         estimatedMileage: asStr(t?.estimatedMileage),
+        drivingHours: asStr(t?.drivingHours),
+        onDutyHours:  asStr(t?.onDutyHours),
         quotedPrice: asStr(t?.quotedPrice),
         driverInfoSent: !!t?.driverInfoSent && t?.driverInfoSent !== "false",
         tripReminderSent: !!t?.tripReminderSent && t?.tripReminderSent !== "false",
@@ -6206,6 +6208,8 @@ function populateFormFromData(t, assigns) {
   if ($("itineraryPdfUrl")) $("itineraryPdfUrl").value = t.itineraryPdfUrl || "";
   if ($("paymentType")) $("paymentType").value = t.paymentType || "";
   if ($("estimatedMileage")) $("estimatedMileage").value = t.estimatedMileage || "";
+  if ($("drivingHours")) $("drivingHours").value = t.drivingHours || "";
+  if ($("onDutyHours"))  $("onDutyHours").value  = t.onDutyHours  || "";
   if ($("quotedPrice")) {
     const qp = String(t.quotedPrice || "");
     $("quotedPrice").value = qp && !qp.startsWith("$") ? "$" + qp : qp;
@@ -7532,6 +7536,7 @@ function handleScheduleInteraction(e, isContext) {
 // ======================================================
 
 let quickEditTripKey = null;
+let quickEditDirty = false;
 
 const QUICK_EDIT_TABS = [
   { id: "details",   label: "Trip"      },
@@ -7545,6 +7550,7 @@ function closeQuickEditPopover() {
   const el = $("tripQuickEdit");
   if (el) el.classList.add("is-hidden");
   quickEditTripKey = null;
+  quickEditDirty = false;
 }
 
 function renderQuickEditTab(tabId, trip, assigns) {
@@ -7778,12 +7784,13 @@ function showQuickEditPopover(tripKey, barEl) {
     .filter(a => a.busId && a.busId !== "None");
 
   quickEditTripKey = tripKey;
+  quickEditDirty = false;
 
   const el = $("tripQuickEdit");
   const titleEl = el.querySelector(".trip-quick-edit__title");
   const tabsEl = $("quickEditTabs");
 
-  titleEl.textContent = trip.destination || "Trip";
+  titleEl.textContent = "Quick Edit";
 
   // Build tabs
   tabsEl.innerHTML = "";
@@ -7876,16 +7883,21 @@ function wireQuickEditPopover() {
   $("quickEditSaveBtn")?.addEventListener("click", saveQuickEdit);
   $("quickEditCloseBtn")?.addEventListener("click", closeQuickEditPopover);
 
+  $("quickEditBody")?.addEventListener("input", () => { quickEditDirty = true; });
+
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && quickEditTripKey) closeQuickEditPopover();
   });
+
   document.addEventListener("click", (e) => {
     if (!quickEditTripKey) return;
     const el = $("tripQuickEdit");
     const path = e.composedPath ? e.composedPath() : [e.target];
     const insidePopover = path.some(n => n === el);
     const onBar = path.some(n => n?.classList?.contains?.("schedule-grid__trip-bar"));
-    if (!insidePopover && !onBar) closeQuickEditPopover();
+    if (insidePopover || onBar) return;
+    if (quickEditDirty && !confirm("Discard unsaved changes?")) return;
+    closeQuickEditPopover();
   });
 }
 
@@ -9173,6 +9185,8 @@ function wireEvents() {
       itineraryPdfUrl: existingTrip?.itineraryPdfUrl || "",
       paymentType: $("paymentType")?.value || "",
       estimatedMileage: $("estimatedMileage")?.value || "",
+      drivingHours: $("drivingHours")?.value || "",
+      onDutyHours:  $("onDutyHours")?.value  || "",
       quotedPrice: $("quotedPrice")?.value || "",
       tripMiles: $("tripMiles")?.value || "",
       datePaid: $("datePaid")?.value || "",

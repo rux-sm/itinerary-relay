@@ -13,7 +13,7 @@
 
   --rux-color-black:  oklch(0% 0 265);
   --rux-color-white:  oklch(100% 0 265);
-  --rux-color-gray:   oklch(50% 0.008 260);
+  --rux-color-gray:   oklch(50% 0.01 260);
   --rux-color-red:    oklch(50% 0.2 25);
   --rux-color-orange: oklch(50% 0.2 65);
   --rux-color-yellow: oklch(50% 0.2 100);

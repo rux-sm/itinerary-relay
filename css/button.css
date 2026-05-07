@@ -14,15 +14,15 @@
 
 :root {
   --rux-btn-bg-primary:   oklch(from var(--rux-color-blue) 50% c h);
-  --rux-btn-bg-secondary: oklch(from var(--rux-color-gray) 50% c h);
+  --rux-btn-bg-secondary: oklch(from var(--rux-color-gray) 45% 0.02 h);
   --rux-btn-bg-danger:    oklch(from var(--rux-color-red)  50% c h);
   --rux-btn-text:         var(--rux-color-white);
   --rux-btn-hover-lift:   0.1;
 
   --rux-btn-height:      32px;
   --rux-btn-radius:      var(--rux-radius-3);
-  --rux-btn-padding:     0 6px;
-  --rux-btn-gap:         8px;
+  --rux-btn-padding:     0 12px;
+  --rux-btn-gap:         4px;
 
   --rux-btn-font-family: var(--rux-font-sans);
   --rux-btn-font-size:   var(--rux-size-4);
@@ -76,7 +76,7 @@ button {
   gap:                 var(--rux-btn-gap);
   height:              var(--rux-btn-height);
   padding:             var(--rux-btn-padding);
-  min-width:           0px;
+  min-width:           80px;
 
   font-family:         var(--rux-btn-font-family);
   font-size:           var(--rux-btn-font-size);
@@ -132,7 +132,7 @@ button {
 
 .rux-btn--tertiary {
   --btn-background:        transparent;
-  --btn-border:            var(--rux-border-2);
+  --btn-border:            var(--rux-border-3);
   --btn-hover-background:  oklch(from var(--rux-color-white) l c h / 0.08);
   --btn-active-background: oklch(from var(--rux-color-white) l c h / 0.15);
 }
