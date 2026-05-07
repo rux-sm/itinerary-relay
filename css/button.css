@@ -14,7 +14,7 @@
 
 :root {
   --rux-btn-bg-primary:   oklch(from var(--rux-color-blue) 50% c h);
-  --rux-btn-bg-secondary: oklch(from var(--rux-color-gray) 35% c h);
+  --rux-btn-bg-secondary: var(--rux-bg-3);
   --rux-btn-bg-danger:    oklch(from var(--rux-color-red)  50% c h);
   --rux-btn-text:         var(--rux-color-white);
   --rux-btn-hover-lift:   0.1;

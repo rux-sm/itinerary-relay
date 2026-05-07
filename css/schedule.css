@@ -57,7 +57,7 @@
   flex-shrink: 0;
   padding-inline: var(--rux-space-4);
   padding-top: var(--rux-space-4);
-  padding-bottom: var(--rux-space-4);
+  padding-bottom: var(--rux-space-3);
   overflow-x: auto;
   overflow-y: hidden;
 
@@ -606,15 +606,14 @@
   table-layout: fixed;
   border-collapse: separate;
   border-spacing: 0;
-  overflow: auto;
-    box-shadow:    /* 1. Contact Shadow: slightly softer so it doesn't look harsh */
-    0 1px 2px oklch(0% 0 0 / 40%), 
-    /* 2. Ambient Shadow: dropped opacity from 35% to 20% to reduce mud in grids */
-    0 2px 8px oklch(0% 0 0 / 20%), 
-    /* 3. Top Highlight: dropped from 18% to 10% to look less like shiny plastic */
-    inset 0 1px 0 oklch(100% 0 0 / 10%), 
-    /* 4. Bottom Bevel: bumped from 30% to 40% to keep the 3D shape grounded */
-    inset 0 -1px 0 oklch(0% 0 0 / 40%); ;
+}
+
+.schedule-viewport {
+  box-shadow:
+    0 1px 2px oklch(0% 0 0 / 40%),
+    0 2px 8px oklch(0% 0 0 / 20%),
+    inset 0 1px 0 oklch(100% 0 0 / 10%),
+    inset 0 -1px 0 oklch(0% 0 0 / 40%);
 }
 
 .schedule-grid__col-bus {
@@ -646,6 +645,7 @@
   z-index: 2000;
   text-align: center;
   vertical-align: middle;
+  box-shadow: inset 0 1px 0 oklch(100% 0 0 / 10%);
 }
 
 /* Day columns */
@@ -665,6 +665,11 @@
   min-width: var(--bus-col-w);
   max-width: var(--bus-col-w);
   width: var(--bus-col-w);
+  border-top-left-radius: var(--rux-radius-section);
+}
+
+.schedule-grid__header-cell:last-child {
+  border-top-right-radius: var(--rux-radius-section);
 }
 
 /* Header cells: center day labels in the cell */

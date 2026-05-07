@@ -133,10 +133,10 @@
   ──────────────────────────────────────────────────────────────── */
 
   --rux-bg-1:       oklch(from var(--rux-color-gray) 0% c h);         /* App canvas — pure black */
-  --rux-bg-field:   oklch(from var(--rux-color-gray) 28.91% c h); 
-  --rux-bg-2:       oklch(from var(--rux-color-gray) 18.22% c h);     /* Panels, sidebar, inputs */
-  --rux-bg-3:       oklch(from var(--rux-color-gray) 36.38% c h);     /* Headers, footers, menus */
-  --rux-bg-4:       oklch(from var(--rux-color-gray) 20.9% c h);        /* Cards, grouped sections */
+  --rux-bg-field:   oklch(from var(--rux-color-gray) 32% c h); 
+  --rux-bg-2:       oklch(from var(--rux-color-gray) 20% c h);     /* Panels, sidebar, inputs */
+  --rux-bg-3:       oklch(from var(--rux-color-gray) 38% c h);     /* Headers, footers, menus */
+  --rux-bg-4:       oklch(from var(--rux-color-gray) 24% c h);        /* Cards, grouped sections */
   --rux-bg-5:       oklch(from var(--rux-color-gray) 32% c h);        /* Modals — highest elevation */
   --rux-bg-overlay: oklch(from var(--rux-color-gray) 70% c h);        /* Scrim / backdrop */
 

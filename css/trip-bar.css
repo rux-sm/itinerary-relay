@@ -449,6 +449,10 @@ body.trip-bar-selected .schedule-grid__trip-bar.today-highlighted:not(.selected)
   color: var(--rux-status-red);
 }
 
+.schedule-grid__trip-bar__paid-badge.is-solid {
+  font-variation-settings: 'FILL' 1, 'opsz' 10;
+}
+
 
 .schedule-grid__trip-bar__sub {
   font-size: var(--tripbar-r2-font-size);

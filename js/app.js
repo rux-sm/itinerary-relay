@@ -3369,6 +3369,7 @@ function _renderAgendaInner() {
           bar._paidBadge.classList.remove("is-alert");
         }
         bar.classList.toggle("has-paid-badge", isAllClear || !isUnconfirmed);
+        bar._paidBadge.classList.toggle("is-solid", Boolean(t.datePaid));
       }
 
       const ds = String(effectiveDriverStatus || "")

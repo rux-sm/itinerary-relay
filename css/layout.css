@@ -4,7 +4,7 @@
   /* App shell sizing */
   --layout-container-max: 100%;
   --layout-panel-gap:     var(--rux-layout-spacing);
-  --card-padding:         16px;
+  --card-padding:         var(--rux-space-3);
   --size-header-row:      40px;
   --size-header-action:   40px;
   --size-toolbar-action:  32px;
@@ -95,7 +95,7 @@
 .o-app-layout__main>.rux-card {
   height: auto;
   max-height: 100%;
-  padding: var(--rux-layout-spacing);
+  padding: var(--rux-space-4);
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -180,7 +180,7 @@
   flex: 1;
   min-height: 0;
   width: var(--panel-width);
-  margin-bottom: var(--rux-layout-spacing);
+  margin-bottom: var(--rux-space-3);
   box-shadow: none;
   transition: none;
 }
