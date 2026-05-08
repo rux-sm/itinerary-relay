@@ -256,6 +256,8 @@
 .schedule-surface,
 .driver-week__surface {
   position: relative;
+  display: flex;
+  flex-direction: column;
   flex: 1;
   min-height: 0;
   overflow: hidden;
@@ -1062,7 +1064,7 @@
 }
 
 .driver-week__table tbody tr:nth-child(even) td.driver-week__cell--on {
-  background-color: var(--rux-color-accent);
+  background-color: var(--rux-color-blue);
 }
 
 .driver-week__table tbody tr:nth-child(even) td.driver-week__cell--unavailable {
@@ -1082,10 +1084,10 @@
 .driver-week__table td:first-child {
   width: auto;
   text-align: start;
-  padding-inline-start: 8px;
-  padding-inline-end: 8px;
+  padding-inline: var(--rux-space-4);
+ 
   color: var(--rux-text-1);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .driver-week__table th {
@@ -1128,12 +1130,17 @@
 }
 
 .driver-week__schedule-icon {
-  font-size: 14px;
-  opacity: 0;
+  opacity: 0.25;
   cursor: pointer;
-  margin-left: 4px;
+  margin-right: 8px;
+  color: var(--rux-text-1);
   vertical-align: middle;
-  font-variation-settings: 'FILL' 1, 'opsz' 20;
+  font-size: var(--rux-btn-icon-size);
+  font-variation-settings:
+    "FILL" var(--rux-btn-icon-fill),
+    "wght" var(--rux-btn-icon-wght),
+    "GRAD" var(--rux-btn-icon-grad),
+    "opsz" var(--rux-btn-icon-opsz);
   transition: opacity var(--transition-fast);
   flex-shrink: 0;
 }
@@ -1176,18 +1183,19 @@ body.trip-bar-selected .schedule-grid__trip-bar.selected {
 .driver-week__cell--unavailable {
   background: var(--rux-color-red);
   color: var(--rux-text-1);
+  border-radius: var(--rux-radius-control);
 }
 
 .driver-week__cell--on {
   background: var(--rux-color-blue);
-  padding: 2px;
-  border-radius: 4px;
+  border-radius: var(--rux-radius-control);
   color: var(--rux-text-1);
 }
 
 .driver-week__cell--relief {
   background: var(--rux-color-blue);
   color: var(--rux-text-1);
+  border-radius: var(--rux-radius-control);
   vertical-align: middle;
 }
 
@@ -1197,8 +1205,12 @@ body.trip-bar-selected .schedule-grid__trip-bar.selected {
 
 .driver-week__relief-icon {
   font-size: 14px;
-  font-variation-settings: "FILL" 1, "opsz" 20;
-  opacity: 0.85;
+  font-variation-settings:
+    "FILL" var(--rux-btn-icon-fill),
+    "wght" var(--rux-btn-icon-wght),
+    "GRAD" var(--rux-btn-icon-grad),
+    "opsz" var(--rux-btn-icon-opsz);
+  opacity: 1;
   pointer-events: none;
   vertical-align: middle;
 }
@@ -1206,8 +1218,9 @@ body.trip-bar-selected .schedule-grid__trip-bar.selected {
 #driver-col-hl {
   position: absolute;
   pointer-events: none;
-  border: none;
-  border-radius: 0px;
+  border-inline: 1px solid var(--rux-color-white);
+  border-block: 2px solid var(--rux-color-white);
+  border-radius: var(--rux-radius-0);
   z-index: 100;
 }
 
@@ -1246,7 +1259,7 @@ body.trip-bar-selected .schedule-grid__trip-bar.selected {
 
 .bus-assign__driver-row {
   display: grid;
-  grid-template-columns: 1fr 96px 32px;
+  grid-template-columns: 32px 1fr 96px;
   gap: var(--rux-fld-col-gap);
   align-items: center;
 }
@@ -1267,7 +1280,7 @@ body.trip-bar-selected .schedule-grid__trip-bar.selected {
 
 .bus-assign-header {
   display: grid;
-  grid-template-columns: 52px 1fr 96px 32px;
+  grid-template-columns: 52px 32px 1fr 96px;
   column-gap: var(--rux-fld-col-gap);
   margin-bottom: var(--rux-fld-label-margin);
 }

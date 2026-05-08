@@ -110,7 +110,7 @@
   --rux-header-padding-y: var(--rux-space-4);
   --rux-header-gap: var(--rux-space-4);
   --rux-header-bg: var(--rux-bg-3);
-  --rux-header-shadow: var(--panel-header-shadow);  
+  --rux-header-shadow: var(--rux-panel-shadow-top);
 
 
   --rux-footer-height: 48px;
@@ -118,7 +118,7 @@
   --rux-footer-padding-y: var(--rux-space-4);
   --rux-footer-gap: var(--rux-space-4);
   --rux-footer-bg: var(--rux-bg-2);
-  --rux-footer-shadow: var(--panel-footer-shadow);
+  --rux-footer-shadow: var(--rux-panel-shadow-bottom);
 
 
   /* 2A. Surfaces
@@ -196,26 +196,33 @@
   --rux-radius-overlay: var(--rux-radius-4);  /* modals, popovers — 10px */
   --rux-radius-badge:   var(--rux-radius-0);  /* chips, mini-badges — 0px */
 
-  /* 2F. Effects
-     Shared across many components. Shadow names are tech debt —
-     future rename pass will move to --rux-shadow-{level}.
-  ──────────────────────────────────────────────────────────────── */
+  /* 2F. Effects */
 
   --focus-ring-color:   var(--rux-color-accent);
   --focus-ring:         inset 0 0 0 2px var(--focus-ring-color);
   --transition-fast:    var(--rux-duration-1) var(--rux-ease-1);
-  --overlay-hover:      rgba(0, 0, 0, 0.05);
+  --overlay-hover:      oklch(0% 0 0 / 5%);
+  --text-shadow:        none;
 
-  --text-shadow:          0 1px 2px rgba(0, 0, 0, 0.8);
-  --heading-shadow-panel: 0px 1px 2px rgba(0, 0, 0, 0.6), 0px 2px 4px rgba(0, 0, 0, 0.3);
-  --panel-header-shadow:  0 8px 8px -8px oklch(0% 0 0 / 60%);
-  --panel-footer-shadow:  0 -8px 8px -8px oklch(0% 0 0 / 60%);
+  /* Surface inset highlight/bevel */
+  --rux-surface-highlight:     oklch(100% 0 0 / 20%);
+  --rux-surface-bevel:         oklch(0% 0 0 / 50%);
+  --rux-surface-shadow-inset:
+    inset 0 2px 0 var(--rux-surface-highlight),
+    inset 0 -2px 0 var(--rux-surface-bevel);
 
-  --card-shadow:         0 1px 3px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --card-shadow-hover:   0 4px 8px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  --card-shadow-context: 0 8px 16px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  --card-shadow-left:    -4px 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --card-shadow-right:   4px 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  /* Elevation scale — outer drop shadows */
+  --rux-shadow-1: 0 1px 3px oklch(0% 0 0 / 40%);
+  --rux-shadow-2: 0 4px 8px oklch(0% 0 0 / 50%);
+  --rux-shadow-3: 0 8px 16px oklch(0% 0 0 / 60%);
+
+  /* Panel edge shadows */
+  --rux-panel-shadow-top:    0 8px 8px -8px oklch(0% 0 0 / 60%);
+  --rux-panel-shadow-bottom: 0 -8px 8px -8px oklch(0% 0 0 / 60%);
+
+  /* Panel card directional drop shadows */
+  --card-shadow-left:  -4px 4px 12px oklch(0% 0 0 / 40%);
+  --card-shadow-right:  4px 4px 12px oklch(0% 0 0 / 40%);
 
   /* Layout */
   --rux-layout-spacing: var(--rux-space-3);

@@ -3892,7 +3892,7 @@ function renderDriverWeekGrid() {
 
       return `
 <tr>
-<td class="driver-week__name-cell" data-driver-name="${escHtml(name)}">${escHtml(name)}<span class="material-symbols-outlined driver-week__schedule-icon" data-action="showDriverWeekSchedule" data-driver-name="${escHtml(name)}" title="Week schedule for ${escHtml(name)}">sms</span></td>
+<td class="driver-week__name-cell" data-driver-name="${escHtml(name)}"><span class="material-symbols-outlined driver-week__schedule-icon" data-action="showDriverWeekSchedule" data-driver-name="${escHtml(name)}" title="Week schedule for ${escHtml(name)}">assignment</span>${escHtml(name)}</td>
 ${cells}
 </tr>
 `;
@@ -4481,9 +4481,9 @@ function getDriverOptions() {
 }
 
 const DRIVER_STATUS_STATES = [
-  { value: "Pending",   icon: "schedule",               cls: "status-pending"  },
-  { value: "Assigned",  icon: "pending",                cls: "status-assigned" },
-  { value: "Confirmed", icon: "check_circle",           cls: "status-ok"       },
+  { value: "Pending",   icon: "radio_button_unchecked", cls: "status-pending"  },
+  { value: "Assigned",  icon: "radio_button_partial",   cls: "status-assigned" },
+  { value: "Confirmed", icon: "radio_button_checked",   cls: "status-ok"       },
 ];
 
 function makeDriverStatusSelect(name) {
@@ -4652,9 +4652,9 @@ function buildBusRowsOnce() {
   const makeDriverRow = (dSel, dStatusSel, payInput) => {
     const row = document.createElement("div");
     row.className = "bus-assign__driver-row";
+    row.appendChild(dStatusSel);
     row.appendChild(dSel);
     row.appendChild(payInput);
-    row.appendChild(dStatusSel);
     return row;
   };
 

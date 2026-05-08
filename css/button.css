@@ -14,7 +14,7 @@
 
 :root {
   --rux-btn-bg-primary:   oklch(from var(--rux-color-blue) 50% c h);
-  --rux-btn-bg-secondary: var(--rux-bg-3);
+  --rux-btn-bg-secondary: oklch(from var(--rux-color-gray)  50% c h);
   --rux-btn-bg-danger:    oklch(from var(--rux-color-red)  50% c h);
   --rux-btn-text:         var(--rux-color-white);
   --rux-btn-hover-lift:   0.1;
@@ -29,24 +29,17 @@
   --rux-btn-font-weight: var(--rux-weight-regular);
 
 
-  --rux-shadow-highlight: oklch(62.793% 0.25768 29.223);
-  --rux-shadow-bevel:     oklch(62.793% 0.25768 29.223);
-  --rux-btn-shadow-inset:
-    inset 0 1px 0 var(--rux-shadow-highlight),
-    inset 0 -1px 0 var(--rux-shadow-bevel);
+  --rux-btn-shadow-inset: var(--rux-surface-shadow-inset);
 
   --rux-btn-shadow-active:
     inset 0 2px 4px oklch(0% 0 0 / 50%),
     inset 0 1px 2px oklch(0% 0 0 / 30%);
 
-  --rux-btn-shadow-active-sm:
-    inset 0 2px 4px oklch(0% 0 0 / 50%);
-
-  --rux-btn-icon-size: var(--rux-size-6);
+--rux-btn-icon-size: var(--rux-size-6);
   --rux-btn-icon-fill: 1;
   --rux-btn-icon-wght: 400;
   --rux-btn-icon-grad: 0;
-  --rux-btn-icon-opsz: 20;
+  --rux-btn-icon-opsz: 20;  
 
   --rux-btn-square-icon-size: 22px;
   --rux-btn-square-icon-fill: 0;
@@ -265,7 +258,9 @@ button {
 /* Dividers: left border on every button except the first */
 .rux-btn-group > * + .rux-btn,
 .rux-btn-group > .rux-btn + * > .rux-btn {
-  border-left-color: oklch(0% 0 0 / 0.3);
+  --btn-shadow: var(--rux-btn-shadow-inset),
+               inset 1px 0 0 oklch(0% 0 0 / 100%),
+               inset 2px 0 0 oklch(100% 0 0 / 20%);
 }
 
 /* Icon-only buttons in the group are square */

@@ -16,7 +16,7 @@
   background-clip: padding-box;
   border: none;
   border-radius: 04;
-  box-shadow: var(--card-shadow-context);
+  box-shadow: var(--rux-shadow-3);
   max-height: 300px;
   overflow-y: auto;
 

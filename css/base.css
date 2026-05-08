@@ -613,7 +613,7 @@ samp {
   border-radius: 0px;
   /* Strictly square */
 
-  box-shadow: var(--card-shadow-context);
+  box-shadow: var(--rux-shadow-3);
 
   overflow-y: auto;
   scrollbar-width: none;
@@ -647,7 +647,7 @@ samp {
   min-width: 180px;
   background-color: var(--rux-bg-3);
   border: none;
-  box-shadow: var(--card-shadow-context);
+  box-shadow: var(--rux-shadow-3);
   padding: 4px 0;
   animation: menuPopIn var(--transition-fast);
 }

@@ -55,7 +55,7 @@
   flex-direction: column;
   background: var(--rux-bg-5);
   border-radius: 0;
-  box-shadow: var(--card-shadow-context);
+  box-shadow: var(--rux-shadow-3);
   overflow: hidden;
   animation: modalPopIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 
@@ -132,7 +132,7 @@
 .modal--itinerary .modal__card {
   font-family: var(--font-sans);
   font-size: 0.875rem;
-  max-width: calc(95ch + 2 * 12px + 2 * 12px);
+  max-width: 400px;
   height: auto;
   max-height: 100%;
   border-radius: var(--rux-radius-3);
