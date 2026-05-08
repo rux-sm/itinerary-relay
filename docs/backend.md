@@ -33,6 +33,7 @@ const CONFIG = {
   ENFORCE_TRIPID_MATCH_ON_DELETE_IF_PROVIDED: true,
   ITINERARY_FOLDER_ID: "1Xj-FjP53QnfNY-bHiCaU9VLCaeNUisYv",
 };
+
 // Column headers (canonical)
 const HEADERS = {
   Trips: [
@@ -495,6 +496,11 @@ function createTrip_(p) {
   // Normalize persisted dates to YYYY-MM-DD strings
   p.departureDate = formatYMD_(departureDate);
   p.arrivalDate = formatYMD_(arrivalDate);
+  if (p.datePaid) {
+    const paidD = safeDateYMD_(p.datePaid);
+    if (paidD) p.datePaid = formatYMD_(paidD);
+  }
+
   // Normalize persisted times to HH:MM strings (optional but improves consistency)
   p.departureTime = normalizeTimeOut_(p.departureTime);
   p.spotTime = normalizeTimeOut_(p.spotTime);
@@ -577,6 +583,10 @@ function updateTrip_(p) {
   const arrD = safeDateYMD_(p.arrivalDate) || coerceToDate_(existing.arrivalDate) || depD;
   if (depD) p.departureDate = formatYMD_(depD);
   if (arrD) p.arrivalDate = formatYMD_(arrD);
+  if (p.datePaid) {
+    const paidD = safeDateYMD_(p.datePaid);
+    if (paidD) p.datePaid = formatYMD_(paidD);
+  }
 
   p.departureTime = normalizeTimeOut_(p.departureTime || existing.departureTime);
   p.spotTime = normalizeTimeOut_(p.spotTime || existing.spotTime);
@@ -650,7 +660,7 @@ function updateTrip_(p) {
     "tripReviewed",
   ];
 
-  const DATE_FIELDS = new Set(["departureDate", "arrivalDate"]);
+  const DATE_FIELDS = new Set(["departureDate", "arrivalDate", "datePaid"]);
   const TIME_FIELDS = new Set(["departureTime", "spotTime", "arrivalTime"]);
   for (const field of TRACKED_FIELDS) {
     const oldVal = DATE_FIELDS.has(field)
