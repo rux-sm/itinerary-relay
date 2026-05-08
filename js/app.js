@@ -8953,7 +8953,7 @@ function wireEvents() {
     syncBusSegButtons();
   });
 
-  document.querySelectorAll("#busesNeededSeg .bus-seg__btn").forEach((btn) => {
+  document.querySelectorAll("#busesNeededSeg .rux-btn--toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
       setBusesNeededAndSync(btn.dataset.value);
       syncBusSegButtons();
@@ -9400,7 +9400,10 @@ function wireEvents() {
 
 
   // Toggle buttons — click toggles aria-pressed
+  // Skip bus-seg buttons: they're a single-select segmented control with their
+  // own click handler in wireBusSegButtons (above), not independent toggles.
   document.querySelectorAll(".rux-btn--toggle").forEach((btn) => {
+    if (btn.closest("#busesNeededSeg")) return;
     btn.addEventListener("click", () => {
       const pressed = btn.getAttribute("aria-pressed") === "true";
       btn.setAttribute("aria-pressed", pressed ? "false" : "true");
