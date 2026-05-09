@@ -90,14 +90,7 @@
           >
             <span class="material-symbols-outlined">groups</span>
           </button>
-          <button
-            id="quoteBtn"
-            class="rux-btn rux-btn--square"
-            type="button"
-            title="Quote calculator"
-          >
-            <span class="material-symbols-outlined">calculate</span>
-          </button>
+          <!-- quoteBtn hidden (WIP) — keep for future use -->
           <button
             id="notesBtn"
             class="rux-btn rux-btn--square"
@@ -113,32 +106,6 @@
             title="Daily checklist"
           >
             <span class="material-symbols-outlined">checklist</span>
-          </button>
-          <div class="rux-app__separator" role="separator" aria-orientation="vertical"></div>
-          <button
-            id="todayHighlightBtn"
-            class="rux-btn rux-btn--square"
-            type="button"
-            title="Highlight today's trips"
-            aria-pressed="false"
-          >
-            <span class="material-symbols-outlined">visibility</span>
-          </button>
-          <button
-            id="waitingListBtn"
-            class="rux-btn rux-btn--square"
-            type="button"
-            title="Waiting list"
-          >
-            <span class="material-symbols-outlined">low_priority</span>
-          </button>
-          <button
-            id="logBtn"
-            class="rux-btn rux-btn--square"
-            type="button"
-            title="Activity log"
-          >
-            <span class="material-symbols-outlined">history</span>
           </button>
           <div class="dropdown">
             <button
@@ -157,6 +124,32 @@
               class="dropdown__menu"
               hidden
             >
+              <button
+                id="todayHighlightBtn"
+                class="dropdown__item"
+                type="button"
+                aria-pressed="false"
+              >
+                <span class="dropdown__icon material-symbols-outlined">visibility</span>
+                <span>Highlight Today's Trips</span>
+              </button>
+              <button
+                id="waitingListBtn"
+                class="dropdown__item"
+                type="button"
+              >
+                <span class="dropdown__icon material-symbols-outlined">low_priority</span>
+                <span>Waiting List</span>
+              </button>
+              <button
+                id="logBtn"
+                class="dropdown__item"
+                type="button"
+              >
+                <span class="dropdown__icon material-symbols-outlined">history</span>
+                <span>Activity Log</span>
+              </button>
+              <hr class="dropdown__divider" />
               <button
                 id="refreshBtn2"
                 class="dropdown__item"
@@ -966,7 +959,7 @@
                     </div>
 
                     <div class="form-group col-12">
-                      <label>Buses</label>
+                      <label>Buses Needed</label>
                       <div class="bus-seg" id="busesNeededSeg" role="group" aria-label="Number of buses">
                         <button type="button" class="rux-btn rux-btn--toggle" data-value="1" aria-pressed="false">1</button>
                         <button type="button" class="rux-btn rux-btn--toggle" data-value="2" aria-pressed="false">2</button>
@@ -989,7 +982,7 @@
                       <div class="form-section-card__label">Estimate</div>
 
                     <div class="form-group col-4">
-                      <label for="estimatedMileage">Est. Mileage</label>
+                      <label for="estimatedMileage">Mileage</label>
                       <div class="fld-affix fld-affix--suffix">
                         <input type="text" id="estimatedMileage" name="estimatedMileage" placeholder="" />
                         <span class="fld-affix__suffix">mi</span>
@@ -997,7 +990,7 @@
                     </div>
 
                     <div class="form-group col-4">
-                      <label for="drivingHours">Driving Hours</label>
+                      <label for="drivingHours">Driving Hrs</label>
                       <div class="fld-affix fld-affix--suffix">
                         <input type="text" id="drivingHours" name="drivingHours" />
                         <span class="fld-affix__suffix">hr</span>
@@ -1005,7 +998,7 @@
                     </div>
 
                     <div class="form-group col-4">
-                      <label for="onDutyHours">On-Duty Hours</label>
+                      <label for="onDutyHours">On-Duty Hrs</label>
                       <div class="fld-affix fld-affix--suffix">
                         <input type="text" id="onDutyHours" name="onDutyHours" />
                         <span class="fld-affix__suffix">hr</span>

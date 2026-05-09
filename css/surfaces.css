@@ -78,6 +78,7 @@
 
 .rux-app__title--name {
   font-weight: var(--rux-weight-regular);
+  padding-right: 12px;
 }
 
 .rux-app__version {
@@ -252,4 +253,11 @@
 /* Direct buttons fill the footer row equally */
 .rux-panel__footer > .rux-btn {
   flex: 1;
+}
+
+/* ── Responsive: narrow screens ─────────────────────────────────────────── */
+@media (max-width: 450px) {
+  .rux-app__branding {
+    display: none;
+  }
 }

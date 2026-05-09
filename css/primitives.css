@@ -127,7 +127,7 @@
   width: auto;
   min-width: 48px;
   min-height: var(--tripbar-mini-badge);
-  padding: 0 4px;
+  padding: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;

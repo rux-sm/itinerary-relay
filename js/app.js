@@ -809,7 +809,7 @@ function computeSleeperSet() {
 // 9) PLATFORM / LAYOUT UTILS
 // ======================================================
 function isMobileOnly() {
-  return window.matchMedia?.("(pointer: coarse)").matches || window.innerWidth <= 900;
+  return false; // mobile/desktop distinction removed
 }
 
 function stackOffset(rowH, barH, step, laneCount) {
@@ -3055,6 +3055,9 @@ function _renderAgendaInner() {
         invText.className = "schedule-grid__trip-bar__mini-badge-text icon-invoice-text";
         bInv.appendChild(invText);
         bInv._text = invText;
+        // Hide the $ icon — show invoice number text only
+        const bInvGlyph = bInv.querySelector(".schedule-grid__trip-bar__badge-glyph");
+        if (bInvGlyph) bInvGlyph.style.display = "none";
 
         bInv.classList.add("is-hidden"); // start hidden
 
