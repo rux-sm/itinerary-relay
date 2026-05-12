@@ -174,10 +174,17 @@ function setWeekSyncStatusMessage(
 
   if (!dom.weekSyncStatus) return;
   dom.weekSyncStatus.textContent = label;
-  dom.weekSyncStatus.dataset.label = safeMode === "idle" ? "" : label;
   dom.weekSyncStatus.classList.remove("is-idle", "is-sync", "is-loading", "is-stale", "is-error");
   dom.weekSyncStatus.classList.add(`is-${safeMode}`);
   setWeekSyncStatusVisual({ progress, indeterminate });
+
+  if (dom.scheduleStatusLabel) {
+    const isIdle = safeMode === "idle";
+    dom.scheduleStatusLabel.textContent = isIdle ? "" : label;
+    dom.scheduleStatusLabel.classList.toggle("is-visible", !isIdle);
+    dom.scheduleStatusLabel.classList.toggle("is-stale", safeMode === "stale");
+    dom.scheduleStatusLabel.classList.toggle("is-error", safeMode === "error");
+  }
 }
 
 function showHeaderStatusNotice(

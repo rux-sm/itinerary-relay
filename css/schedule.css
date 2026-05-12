@@ -115,7 +115,6 @@
   overflow: visible;
   font-size: 0;
   pointer-events: none;
-  z-index: 5;
 }
 
 .schedule-sync-status::before {
@@ -133,26 +132,26 @@
     background-color 180ms ease;
 }
 
-.schedule-sync-status::after {
-  content: attr(data-label);
-  position: absolute;
-  bottom: 6px;
-  right: 148px;
-  z-index: 10;
-  font-size: 10px;
+/* Status label — real DOM element (#scheduleStatusLabel), appended to body by dom.js */
+.schedule-status-label {
+  position: fixed;
+  top: 73px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 500;
+  font-size: 11px;
   line-height: 1;
   white-space: nowrap;
-  color: oklch(from var(--rux-color-accent) l c h / 0.75);
-  letter-spacing: 0.01em;
+  color: oklch(from var(--rux-color-accent) l c h / 0.8);
+  letter-spacing: 0.02em;
   opacity: 0;
   transition: opacity 250ms ease;
   pointer-events: none;
 }
 
-.schedule-sync-status.is-stale::after  { color: oklch(from var(--rux-status-yellow) l c h / 0.85); }
-.schedule-sync-status.is-error::after  { color: oklch(from var(--rux-status-red)    l c h / 0.85); }
-
-.schedule-sync-status:not(.is-idle)::after { opacity: 1; }
+.schedule-status-label.is-visible       { opacity: 1; }
+.schedule-status-label.is-stale         { color: oklch(from var(--rux-status-yellow) l c h / 0.9); }
+.schedule-status-label.is-error         { color: oklch(from var(--rux-status-red)    l c h / 0.9); }
 
 .schedule-sync-status.has-progress::before {
   opacity: 1;

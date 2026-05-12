@@ -42,6 +42,16 @@ const dom = {
   headerWeek: $("headerWeek"),
   weekWrapper: $("dateWrapper"),
   weekSyncStatus: $("weekSyncStatus"),
+  scheduleStatusLabel: (() => {
+    const el = document.createElement("span");
+    el.id = "scheduleStatusLabel";
+    el.className = "schedule-status-label";
+    el.setAttribute("role", "status");
+    el.setAttribute("aria-live", "polite");
+    el.setAttribute("aria-atomic", "true");
+    document.body.appendChild(el);
+    return el;
+  })(),
   weekPicker: $("weekPicker"),
   agendaLeftBtn: $("agendaLeftBtn"),
 
