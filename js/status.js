@@ -174,6 +174,7 @@ function setWeekSyncStatusMessage(
 
   if (!dom.weekSyncStatus) return;
   dom.weekSyncStatus.textContent = label;
+  dom.weekSyncStatus.dataset.label = safeMode === "idle" ? "" : label;
   dom.weekSyncStatus.classList.remove("is-idle", "is-sync", "is-loading", "is-stale", "is-error");
   dom.weekSyncStatus.classList.add(`is-${safeMode}`);
   setWeekSyncStatusVisual({ progress, indeterminate });
