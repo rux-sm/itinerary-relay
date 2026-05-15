@@ -891,6 +891,7 @@ function _renderAgendaInner() {
         const right = document.createElement("span");
         right.className = "schedule-grid__trip-bar__time schedule-grid__trip-bar__time--right";
         timeRow.append(left, center, right);
+        bar._timeRow = timeRow;
         r5.appendChild(timeRow);
 
         // Badge helpers — used in r1 top-status group, r6 driver slots
@@ -1254,6 +1255,30 @@ function _renderAgendaInner() {
       bar.classList.toggle("cont-left", continuesLeft);
       bar.classList.toggle("cont-right", continuesRight);
       bar.classList.toggle("cont-single", (continuesLeft || continuesRight) && startIdx === endIdx);
+      if (bar._timeRow) {
+        if (continuesLeft && !bar._contLeftIcon) {
+          const el = document.createElement("span");
+          el.className =
+            "material-symbols-outlined schedule-grid__trip-bar__time-arrow schedule-grid__trip-bar__time-arrow--left";
+          el.textContent = "west";
+          bar._timeRow.prepend(el);
+          bar._contLeftIcon = el;
+        } else if (!continuesLeft && bar._contLeftIcon) {
+          bar._contLeftIcon.remove();
+          bar._contLeftIcon = null;
+        }
+        if (continuesRight && !bar._contRightIcon) {
+          const el = document.createElement("span");
+          el.className =
+            "material-symbols-outlined schedule-grid__trip-bar__time-arrow schedule-grid__trip-bar__time-arrow--right";
+          el.textContent = "east";
+          bar._timeRow.append(el);
+          bar._contRightIcon = el;
+        } else if (!continuesRight && bar._contRightIcon) {
+          bar._contRightIcon.remove();
+          bar._contRightIcon = null;
+        }
+      }
 
       const pay = String(t.paymentStatus || "").toLowerCase();
       // Red unconfirmed if "Pending Quote" or "Quoted" (or legacy "pending")

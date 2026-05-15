@@ -372,6 +372,13 @@ function wireDelegatedBarEvents() {
 // 36) EVENTS
 // ======================================================
 function wireEvents() {
+  window.addEventListener("beforeunload", (e) => {
+    if (state.tripFormDirty) {
+      e.preventDefault();
+      e.returnValue = "";
+    }
+  });
+
   // Delegated handler for conflict list — avoids accumulating listeners on each re-render
   // Single Escape handler for all modals — replaces per-modal document.addEventListener calls
   document.addEventListener("keydown", (e) => {
@@ -871,8 +878,15 @@ function wireEvents() {
     delete state.tripByKey[key];
     delete state.assignmentsByTripKey[key];
 
-    clearCacheForTrip(tripDate);
-    if (tripArrival && tripArrival !== tripDate) clearCacheForTrip(tripArrival);
+    // Evict every week covered by the trip
+    {
+      let d = parseYMD(tripDate);
+      const tripEnd = parseYMD(tripArrival || tripDate);
+      while (d && tripEnd && d <= tripEnd) {
+        clearCacheForTrip(ymd(d));
+        d = addDays(d, 7);
+      }
+    }
 
     scheduleAgendaReflow();
     updateDriverWeekIfVisible();
@@ -1167,10 +1181,14 @@ function wireEvents() {
     scheduleAgendaReflow();
     updateDriverWeekIfVisible();
 
-    // Evict only the affected week(s) — leaves adjacent prefetched weeks intact
-    clearCacheForTrip(optimisticTrip.departureDate);
-    if (optimisticTrip.arrivalDate && optimisticTrip.arrivalDate !== optimisticTrip.departureDate) {
-      clearCacheForTrip(optimisticTrip.arrivalDate);
+    // Evict every week covered by the trip so multi-week trips don't leave stale middle-week caches
+    {
+      let d = parseYMD(optimisticTrip.departureDate);
+      const tripEnd = parseYMD(optimisticTrip.arrivalDate || optimisticTrip.departureDate);
+      while (d && tripEnd && d <= tripEnd) {
+        clearCacheForTrip(ymd(d));
+        d = addDays(d, 7);
+      }
     }
 
     dom.saveBtn.disabled = true;
@@ -1230,19 +1248,19 @@ function wireEvents() {
     api
       .saveTrip(formBody)
       .then((resp) => {
+        const sKey = resp.trip ? String(resp.trip.tripKey || key) : key;
         if (resp.trip) {
-          const sKey = String(resp.trip.tripKey || key);
           state.tripByKey[sKey] = resp.trip;
           const idx = state.trips.findIndex((t) => String(t.tripKey) === sKey);
           if (idx >= 0) state.trips[idx] = resp.trip;
-          if (resp.assignments) {
-            state.assignmentsByTripKey[sKey] = resp.assignments
-              .map(normalizeAssignment)
-              .filter(Boolean);
-          }
-          scheduleAgendaReflow();
-          updateDriverWeekIfVisible();
         }
+        if (resp.assignments) {
+          state.assignmentsByTripKey[sKey] = resp.assignments
+            .map(normalizeAssignment)
+            .filter(Boolean);
+        }
+        scheduleAgendaReflow();
+        updateDriverWeekIfVisible();
       })
       .catch((err) => {
         console.error(err);
@@ -1326,6 +1344,7 @@ function wireEvents() {
     // Form has just been reset after save/delete; treat as clean.
     state.tripFormDirty = false;
     state.tripFormOpen = false;
+    state.tripFormWeekKey = null;
     if (typeof syncEmptyFields === "function") syncEmptyFields();
     refreshShortcutRow();
   }

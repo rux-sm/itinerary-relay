@@ -187,10 +187,14 @@ function toggleCard(cardType) {
 function setSidePanelMode(mode) {
   if (mode === "off") {
     state.tripFormOpen = false;
+    state.tripFormWeekKey = null;
     // Close all cards
     Object.keys(CARD_CONFIG).forEach((cardType) => hideCard(cardType));
   } else {
-    if (mode === "trip") state.tripFormOpen = true;
+    if (mode === "trip") {
+      state.tripFormOpen = true;
+      state.tripFormWeekKey = getWeekRange().start;
+    }
     // Ensure card is shown exclusively on the left
     const currentPanel = getCardPanel(mode);
     if (!currentPanel) {

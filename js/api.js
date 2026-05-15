@@ -178,14 +178,21 @@ const api = {
   },
 
   async saveTrip(body) {
-    const resp = await fetch(CONFIG.ENDPOINT, {
-      method: "POST",
-      body,
-      mode: "cors",
-      credentials: "omit",
-    }).then((r) => r.json());
-    if (!resp?.ok) throw new Error(resp?.error || "Save failed");
-    return resp;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), CONFIG.JSONP_TIMEOUT);
+    try {
+      const resp = await fetch(CONFIG.ENDPOINT, {
+        method: "POST",
+        body,
+        mode: "cors",
+        credentials: "omit",
+        signal: controller.signal,
+      }).then((r) => r.json());
+      if (!resp?.ok) throw new Error(resp?.error || "Save failed");
+      return resp;
+    } finally {
+      clearTimeout(timeoutId);
+    }
   },
 
   async setChecklist(tripKey, date, saved, signal) {

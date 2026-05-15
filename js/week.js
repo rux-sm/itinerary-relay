@@ -231,8 +231,13 @@ async function fetchWeekDataCached(start, end, notesKey, force = false) {
 
 function applyWeekRespToState(resp, weekStart, weekEnd) {
   if (state.tripFormOpen) {
-    state.pendingRefreshDeferred = true;
-    return;
+    // Only block the week the form is editing — other weeks render immediately.
+    const formSameWeek = !state.tripFormWeekKey || !weekStart
+      || weekStart === state.tripFormWeekKey;
+    if (formSameWeek) {
+      state.pendingRefreshDeferred = true;
+      return false;
+    }
   }
   if (state.pendingWrite) {
     const pw = state.pendingWrite;
@@ -241,7 +246,7 @@ function applyWeekRespToState(resp, weekStart, weekEnd) {
       || weekKey(weekStart, weekEnd) === pw.writeWeekKey;
     if (sameWeek) {
       state.pendingRefreshDeferred = true;
-      return;
+      return false;
     }
   }
 
@@ -291,6 +296,7 @@ function applyWeekRespToState(resp, weekStart, weekEnd) {
       (state.unavailabilityByDriver[name] ||= {})[date] = true;
     }
   }
+  return true;
 }
 
 let _prefetchTimer = null;
@@ -356,10 +362,12 @@ function updateWeekDates() {
   const cached = getCachedWeek(key);
 
   if (cached?.ok) {
-    applyWeekRespToState(cached, start, end);
-    updateDriverWeekIfVisible();
-    updateTodoCardIfVisible();
-    scheduleAgendaReflow();
+    const applied = applyWeekRespToState(cached, start, end);
+    if (applied) {
+      updateDriverWeekIfVisible();
+      updateTodoCardIfVisible();
+      scheduleAgendaReflow();
+    }
     refreshWeekData({ silent: true });
   } else {
     refreshWeekData({ silent: false });
@@ -398,13 +406,15 @@ async function loadTripsForWeek(reqId) {
 
   if (localData && localData.ok) {
     if (reqId != null && reqId !== state.weekReqId) return;
-    applyWeekRespToState(localData, start, end);
-    updateDriverWeekIfVisible();
-    updateTodoCardIfVisible();
-    scheduleAgendaReflow();
+    const appliedLocal = applyWeekRespToState(localData, start, end);
+    if (appliedLocal) {
+      updateDriverWeekIfVisible();
+      updateTodoCardIfVisible();
+      scheduleAgendaReflow();
+    }
     setWeekSyncStatus("sync");
 
-    // FIXED: Reveal the bars immediately if we have local data!
+    // Reveal the bars immediately if we have local data.
     setBarsHidden(false);
 
     // Show background refresh progress in the header without implying a full load state.
@@ -419,10 +429,12 @@ async function loadTripsForWeek(reqId) {
 
   if (reqId != null && reqId !== state.weekReqId) return;
 
-  applyWeekRespToState(resp, start, end);
-  updateDriverWeekIfVisible();
-  updateTodoCardIfVisible();
-  scheduleAgendaReflow();
+  const applied = applyWeekRespToState(resp, start, end);
+  if (applied) {
+    updateDriverWeekIfVisible();
+    updateTodoCardIfVisible();
+    scheduleAgendaReflow();
+  }
 
   if (resp?.__stale) {
     setWeekSyncStatus("stale");
@@ -503,6 +515,8 @@ async function refreshWeekData({ silent = false } = {}) {
     console.error(e);
     toast("Refresh failed", "danger", 2200);
     setWeekSyncStatus("error");
+    setBarsHidden(false);
+    scheduleAgendaReflow();
   } finally {
     if (!silent && state.weekLoadSafetyTimer) {
       clearTimeout(state.weekLoadSafetyTimer);

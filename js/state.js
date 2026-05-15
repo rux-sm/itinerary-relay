@@ -50,6 +50,7 @@ const state = {
   notesLoaded: false,
 
   tripFormDirty: false,
+  tripFormWeekKey: null,
 
   activeAbortController: null,
 

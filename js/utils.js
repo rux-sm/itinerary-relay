@@ -374,6 +374,11 @@ function safeOk(resp) {
 function sanitizeWeekResp(resp) {
   const ok = safeOk(resp);
 
+  function validYmd(s) {
+    const d = parseYMD(asStr(s).slice(0, 10));
+    return d ? ymd(d) : "";
+  }
+
   const trips = asArray(resp?.trips)
     .map((t) => {
       const tripKey = asStr(t?.tripKey).trim();
@@ -384,8 +389,8 @@ function sanitizeWeekResp(resp) {
         customer: asStr(t?.customer).trim(),
         contactName: asStr(t?.contactName).trim(),
         phone: asStr(t?.phone).trim(),
-        departureDate: asStr(t?.departureDate).slice(0, 10),
-        arrivalDate: asStr(t?.arrivalDate).slice(0, 10),
+        departureDate: validYmd(t?.departureDate),
+        arrivalDate: validYmd(t?.arrivalDate),
         departureTime: normalizeTime(t?.departureTime),
         spotTime: normalizeTime(t?.spotTime),
         arrivalTime: normalizeTime(t?.arrivalTime),
@@ -405,7 +410,7 @@ function sanitizeWeekResp(resp) {
         driverInfoSent: !!t?.driverInfoSent && t?.driverInfoSent !== "false",
         tripReminderSent: !!t?.tripReminderSent && t?.tripReminderSent !== "false",
         tripMiles: asStr(t?.tripMiles),
-        datePaid: asStr(t?.datePaid).trim().slice(0, 10),
+        datePaid: validYmd(t?.datePaid),
         notes: asStr(t?.notes),
         comments: asStr(t?.comments),
         itinerary: asStr(t?.itinerary),
