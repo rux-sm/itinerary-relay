@@ -1374,7 +1374,7 @@ body.driver-filter-active .schedule-grid__trip-bar.selected {
 
 /* ── Compact bars mode: shrink schedule row height to match ── */
 body.bars-compact {
-  --schedule-row-height: 101px; /* lane-step + 1 — sets the actual visible bar height */
+  --schedule-row-height: 101px;
 }
 
 /* ==========================================================================

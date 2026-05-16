@@ -301,7 +301,9 @@ function wireDelegatedBarEvents() {
         document.querySelectorAll(".schedule-grid__trip-bar.expanded").forEach((b) => {
           b.classList.remove("expanded");
           b.style.height = b.dataset.collapsedHeight || "";
+          b.style.top = b.dataset.collapsedTop || "";
           delete b.dataset.collapsedHeight;
+          delete b.dataset.collapsedTop;
           if (b.dataset.collapsedWidth) {
             b.style.width = b.dataset.collapsedWidth;
             delete b.dataset.collapsedWidth;
@@ -318,6 +320,7 @@ function wireDelegatedBarEvents() {
           //    to the same length, so we convert to px first.
           const collapsedPx = clickedBar.getBoundingClientRect().height;
           clickedBar.dataset.collapsedHeight = collapsedPx + "px";
+          clickedBar.dataset.collapsedTop = clickedBar.style.top || "";
           clickedBar.style.height = collapsedPx + "px";
 
           // 2. Flush layout so the browser commits collapsedPx as the
@@ -348,24 +351,31 @@ function wireDelegatedBarEvents() {
           const expandedTd = clickedBar.parentElement.parentElement;
           if (expandedTd?.tagName === "TD") expandedTd.style.zIndex = "50";
 
-          // 4. Read the action-row height now that .expanded is applied,
-          //    then grow the bar by exactly that amount + one row-gap.
-          //    The content grows by actionRowH; the bar grows by actionRowH +
-          //    rowGapH, so the two stay in lockstep — overflow:hidden never
-          //    clips anything mid-animation.
+          // 4. Read the state height tokens now that .expanded is applied.
+          //    CSS owns the tuneable heights:
+          //    collapsed = rows 1-6, expanded = rows 1-10, active = rows 1-11.
           const cs = getComputedStyle(clickedBar);
+          const insetTop = parseFloat(cs.getPropertyValue("--tripbar-inset-top")) || 0;
+          const activeH = parseFloat(cs.getPropertyValue("--tripbar-height-active")) || 0;
           const actionRowH = parseFloat(cs.getPropertyValue("--tripbar-r11-row-height")) || 30;
           const rowGapH = parseFloat(cs.getPropertyValue("--tripbar-row-gap")) || 0;
-          // In compact mode rows 5, 6, 8 & 10 are 0px when collapsed but CSS
+          // In compact mode rows 7-10 are 0px when collapsed but CSS
           // restores them once .expanded is added — account for their heights here.
           const hiddenRowsH = document.body.classList.contains("bars-compact")
-            ? (parseFloat(cs.getPropertyValue("--tripbar-r5-row-height"))  || 0) +
-              (parseFloat(cs.getPropertyValue("--tripbar-r6-row-height"))  || 0) +
+            ? (parseFloat(cs.getPropertyValue("--tripbar-r7-row-height"))  || 0) +
               (parseFloat(cs.getPropertyValue("--tripbar-r8-row-height"))  || 0) +
+              (parseFloat(cs.getPropertyValue("--tripbar-r9-row-height"))  || 0) +
               (parseFloat(cs.getPropertyValue("--tripbar-r10-row-height")) || 0) +
+              (parseFloat(cs.getPropertyValue("--tripbar-r7-gap-above"))   || 0) +
+              (parseFloat(cs.getPropertyValue("--tripbar-r8-gap-above"))   || 0) +
+              (parseFloat(cs.getPropertyValue("--tripbar-r9-gap-above"))   || 0) +
               (parseFloat(cs.getPropertyValue("--tripbar-r10-gap-above"))  || 0)
             : 0;
-          clickedBar.style.height = collapsedPx + hiddenRowsH + actionRowH + rowGapH + "px";
+          clickedBar.style.height =
+            (activeH > collapsedPx
+              ? activeH
+              : collapsedPx + hiddenRowsH + actionRowH + rowGapH) + "px";
+          clickedBar.style.top = insetTop + "px";
         }
         return;
       }
@@ -480,7 +490,7 @@ function wireEvents() {
   dom.prevWeekBtn.addEventListener("click", () => changeWeek(-1));
   dom.nextWeekBtn.addEventListener("click", () => changeWeek(1));
 
-  // Compact bars toggle — hides rows 5 (status) and 6 (pre-drivers) until a bar is expanded.
+  // Compact bars toggle — collapsed bars show rows 1-6; active bars restore rows 1-11.
   (function initCompactBars() {
     const btn = dom.compactBarsBtn;
     if (!btn) return;
@@ -498,7 +508,9 @@ function wireEvents() {
       document.querySelectorAll(".schedule-grid__trip-bar.expanded").forEach((b) => {
         b.classList.remove("expanded");
         b.style.height = b.dataset.collapsedHeight || "";
+        b.style.top = b.dataset.collapsedTop || "";
         delete b.dataset.collapsedHeight;
+        delete b.dataset.collapsedTop;
         b.parentElement.style.zIndex = "";
         const td = b.parentElement.parentElement;
         if (td?.tagName === "TD") td.style.zIndex = "";

@@ -1553,13 +1553,12 @@ function _renderAgendaInner() {
     }
   }
 
-  const insetTopPx =
-    parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--tripbar-inset-top")) ||
-    0;
+  const barCss = getComputedStyle(document.body);
+  const insetTopPx = parseFloat(barCss.getPropertyValue("--tripbar-inset-top")) || 0;
+  const insetBottomPx = parseFloat(barCss.getPropertyValue("--tripbar-inset-bottom")) || 0;
 
   for (const [busId, list] of barsByBus) {
     const laneCount = (lanesByBus[busId] || []).length || 1;
-    const top0 = stackOffset(rowH, barH, step, laneCount);
 
     // Waiting list row grows to fit stacked trips; others use single row height
     const isWaitingList = busId === "WAITING_LIST";
@@ -1567,7 +1566,7 @@ function _renderAgendaInner() {
     // FIX: Using 'step' (110px) instead of 'rowH' (100px) for the waiting list height
     // to ensure there is enough vertical room for the stacked bars + their gaps.
     const effectiveRowH = isWaitingList ? Math.max(1, laneCount) * step : rowH;
-    const maxTop = Math.max(0, effectiveRowH - barH + insetTopPx);
+    const maxTop = Math.max(insetTopPx, effectiveRowH - barH - insetBottomPx);
 
     if (isWaitingList) {
       const wlTr = waitingBody?.querySelector(".waiting-list-row");
@@ -1584,9 +1583,9 @@ function _renderAgendaInner() {
       const lane = Number(bar.dataset.lane);
       if (!Number.isFinite(lane)) continue;
 
-      let topPx = isWaitingList ? lane * step + insetTopPx : top0 + lane * step + insetTopPx;
+      let topPx = lane * step + insetTopPx;
       // Clamp to ensure bar stays within its row bounds
-      topPx = Math.max(0, Math.min(topPx, maxTop));
+      topPx = Math.max(insetTopPx, Math.min(topPx, maxTop));
       bar.style.top = `${Math.round(topPx)}px`; // <— snap
     }
   }

@@ -16,9 +16,14 @@
 
   /* ── Geometry ────────────────────────────────────────────────────────── */
 
-  --tripbar-height:     200px;
-  --tripbar-radius:       7px;
-  --tripbar-lane-step:  200px;
+  --tripbar-height-collapsed: 100px; /* rows 1-6 */
+  --tripbar-height-expanded:  200px; /* rows 1-10 */
+  --tripbar-height-active:    230px; /* rows 1-11, including action bar */
+  --tripbar-lane-gap:           0px;
+
+  --tripbar-height:     var(--tripbar-height-expanded);
+  --tripbar-radius:     7px;
+  --tripbar-lane-step:  calc(var(--tripbar-height) + var(--tripbar-lane-gap));
   --tripbar-max-width:  188px;
   --tripbar-min-width:  188px;
 
@@ -689,8 +694,7 @@ body.bars-compact {
   --tripbar-r10-row-height: 0px; /* payment refs */
   --tripbar-r7-gap-above:   0px; /* suppress gap when track is collapsed */
   --tripbar-r10-gap-above:  0px;
-  --tripbar-height:     100px;
-  --tripbar-lane-step:  100px;
+  --tripbar-height:     var(--tripbar-height-collapsed);
 }
 
 body.bars-compact .schedule-grid__trip-bar.expanded {
