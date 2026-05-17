@@ -45,34 +45,33 @@
       rel="stylesheet"
       href="css/main.css?v=37"
     />
+    <link
+      rel="stylesheet"
+      href="css/login.css"
+    />
   </head>
 
   <body>
     <!-- Login overlay — shown by auth.js when no session -->
-    <div id="loginOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:oklch(12% 0.02 260);display:flex;align-items:center;justify-content:center;">
-      <div style="background:oklch(18% 0.03 260);border:1px solid oklch(30% 0.04 260);border-radius:12px;padding:40px;width:100%;max-width:360px;box-shadow:0 24px 48px oklch(0% 0 0/0.5);">
-        <div style="text-align:center;margin-bottom:28px;">
-          <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;color:oklch(55% 0.12 260);text-transform:uppercase;margin-bottom:6px;">ETB Dispatch</div>
-          <div style="font-size:22px;font-weight:800;color:oklch(92% 0.02 260);">Sign in</div>
+    <div id="loginOverlay" class="login" style="display:none;">
+      <div class="login__card">
+        <div class="login__header">
+          <img src="assets/logo.png" alt="ETB Dispatch" class="login__logo" />
+          <div class="login__title">Sign in</div>
         </div>
-        <form id="loginForm" style="display:flex;flex-direction:column;gap:14px;">
-          <div style="display:flex;flex-direction:column;gap:6px;">
-            <label style="font-size:12px;font-weight:600;color:oklch(60% 0.03 260);letter-spacing:0.04em;">EMAIL</label>
+        <form id="loginForm" class="login__form">
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
             <input id="loginEmail" type="email" autocomplete="email" required
-              style="background:oklch(12% 0.02 260);border:1px solid oklch(35% 0.04 260);border-radius:7px;padding:10px 12px;font-size:14px;color:oklch(92% 0.02 260);outline:none;width:100%;box-sizing:border-box;"
               placeholder="you@etb.com" />
           </div>
-          <div style="display:flex;flex-direction:column;gap:6px;">
-            <label style="font-size:12px;font-weight:600;color:oklch(60% 0.03 260);letter-spacing:0.04em;">PASSWORD</label>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
             <input id="loginPassword" type="password" autocomplete="current-password" required
-              style="background:oklch(12% 0.02 260);border:1px solid oklch(35% 0.04 260);border-radius:7px;padding:10px 12px;font-size:14px;color:oklch(92% 0.02 260);outline:none;width:100%;box-sizing:border-box;"
               placeholder="••••••••" />
           </div>
-          <div id="loginError" style="display:none;font-size:13px;color:oklch(65% 0.2 25);background:oklch(20% 0.05 25);border-radius:6px;padding:8px 12px;"></div>
-          <button type="submit" id="loginBtn"
-            style="margin-top:4px;background:oklch(52% 0.18 260);color:#fff;border:none;border-radius:7px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:0.02em;">
-            Sign in
-          </button>
+          <div id="loginError" class="login__error"></div>
+          <button type="submit" id="loginBtn" class="rux-btn rux-btn--primary">Sign in</button>
         </form>
       </div>
     </div>

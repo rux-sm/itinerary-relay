@@ -1,0 +1,96 @@
+/* ── Tier 3 tokens ───────────────────────────────────────────────────────── */
+
+:root {
+  --login-overlay-bg:    var(--rux-bg-1);
+  --login-card-bg:       var(--rux-bg-4);
+  --login-card-border:   var(--rux-border-2);
+  --login-card-radius:   var(--rux-radius-5);
+  --login-card-padding:  2.5rem;
+  --login-card-width:    360px;
+  --login-card-shadow:   0 24px 48px oklch(0% 0 0 / 50%);
+
+  --login-logo-height:   32px;
+
+  --login-title-size:    var(--rux-size-5);
+  --login-title-weight:  400;
+  --login-title-color:   var(--rux-text-1);
+
+  --login-form-gap:      var(--rux-fld-row-gap);
+
+  --login-error-size:    var(--rux-size-3);
+  --login-error-color:   var(--rux-status-red);
+  --login-error-bg:      var(--rux-status-red-alpha);
+  --login-error-radius:  var(--rux-radius-2);
+  --login-error-padding: var(--rux-space-3) var(--rux-space-4);
+
+}
+
+/* ==========================================================================
+   LOGIN OVERLAY
+   ========================================================================== */
+
+.login {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--login-overlay-bg);
+}
+
+.login[style*="display:none"],
+.login[hidden] {
+  display: none !important;
+}
+
+.login__card {
+  background: var(--login-card-bg);
+  border: 1px solid var(--login-card-border);
+  border-radius: var(--login-card-radius);
+  padding: var(--login-card-padding);
+  width: 100%;
+  max-width: var(--login-card-width);
+  box-shadow: var(--login-card-shadow);
+  box-sizing: border-box;
+}
+
+.login__header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login__logo {
+  height: var(--login-logo-height);
+  width: auto;
+  display: block;
+  margin: 0 auto 0.375rem;
+}
+
+.login__title {
+  font-size: var(--login-title-size);
+  font-weight: var(--login-title-weight);
+  color: var(--login-title-color);
+  margin-top: 20px;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--login-form-gap);
+}
+
+
+.login__error {
+  display: none;
+  font-size: var(--login-error-size);
+  color: var(--login-error-color);
+  background: var(--login-error-bg);
+  border-radius: var(--login-error-radius);
+  padding: var(--login-error-padding);
+}
+
+#loginBtn {
+  margin-top: var(--rux-space-1);
+  width: 100%;
+}
