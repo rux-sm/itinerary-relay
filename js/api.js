@@ -524,15 +524,46 @@ function onAssignmentChange(payload) {
 }
 
 let _realtimeInit = false;
+let _presenceChannel = null;
+
 function initRealtime() {
   if (_realtimeInit) return;
   _realtimeInit = true;
+
   _sb.channel("trip-board-changes")
     .on("postgres_changes", { event: "*", schema: "public", table: "trips" }, onTripChange)
     .on("postgres_changes", { event: "*", schema: "public", table: "bus_assignments" }, onAssignmentChange)
     .subscribe((status) => {
       if (status === "SUBSCRIBED") console.info("[realtime] connected");
     });
+
+  _presenceChannel = _sb.channel("trip-board-presence");
+  _presenceChannel
+    .on("presence", { event: "sync" }, () => {
+      if (typeof onPresenceSync === "function") {
+        onPresenceSync(_presenceChannel.presenceState());
+      }
+    })
+    .subscribe(async (status) => {
+      if (status === "SUBSCRIBED" && state.profile?.id) {
+        await _presenceChannel.track({
+          userId:      state.profile.id,
+          displayName: state.profile.displayName,
+          avatarColor: state.profile.avatarColor,
+          avatarUrl:   state.profile.avatarUrl,
+        });
+      }
+    });
+}
+
+async function retrackPresence() {
+  if (!_presenceChannel || !state.profile?.id) return;
+  await _presenceChannel.track({
+    userId:      state.profile.id,
+    displayName: state.profile.displayName,
+    avatarColor: state.profile.avatarColor,
+    avatarUrl:   state.profile.avatarUrl,
+  });
 }
 
 // ======================================================

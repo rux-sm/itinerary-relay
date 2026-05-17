@@ -115,6 +115,10 @@ const dom = {
   quoteDriver2Pay: $("quoteDriver2Pay"),
   quoteFinalTotal: $("quoteFinalTotal"),
 
+  presenceStrip:  $("presenceStrip"),
+  avatarBtn:      $("avatarBtn"),
+  profilePopover: $("profilePopover"),
+
   settingsBtn: $("settingsBtn"),
   settingsMenu: $("settingsMenu"),
   todayBtn2: $("todayBtn2"),

@@ -421,16 +421,17 @@ function wireEvents() {
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
     const modalClosers = [
-      { el: dom.itineraryModal, close: closeItineraryModal },
-      { el: dom.tripDetailsModal, close: closeTripDetailsModal },
-      { el: dom.envelopeModal, close: closeEnvelopeModal },
-      { el: dom.nextDayReportModal, close: () => closeModalA11y(dom.nextDayReportModal) },
+      { el: dom.profilePopover,          close: closeProfilePopover },
+      { el: dom.itineraryModal,          close: closeItineraryModal },
+      { el: dom.tripDetailsModal,        close: closeTripDetailsModal },
+      { el: dom.envelopeModal,           close: closeEnvelopeModal },
+      { el: dom.nextDayReportModal,      close: () => closeModalA11y(dom.nextDayReportModal) },
       {
         el: dom.dailyMaintenancePlanModal,
         close: () => closeModalA11y(dom.dailyMaintenancePlanModal),
       },
       { el: dom.driverWeekScheduleModal, close: () => closeModalA11y(dom.driverWeekScheduleModal) },
-      { el: dom.driverContactModal, close: () => closeModalA11y(dom.driverContactModal) },
+      { el: dom.driverContactModal,      close: () => closeModalA11y(dom.driverContactModal) },
     ];
     for (const { el, close } of modalClosers) {
       if (el && !el.hidden) {
@@ -1428,6 +1429,8 @@ function wireEvents() {
       updateBusRowVisibility();
     });
   });
+
+  wireProfilePopover();
 }
 
 // ======================================================
@@ -1525,6 +1528,120 @@ function wireSettingsMenu() {
   // 6. Auto-close whenever ANY dropdown item is clicked inside this menu
   dom.settingsMenu.addEventListener("click", (e) => {
     if (e.target.closest(".dropdown__item")) closeSettings();
+  });
+}
+
+// ======================================================
+// 38) WIRE PROFILE POPOVER
+// ======================================================
+function wireProfilePopover() {
+  const btn     = dom.avatarBtn;
+  const popover = dom.profilePopover;
+  if (!btn || !popover) return;
+
+  function profileOutsideClick(e) {
+    if (!popover.contains(e.target) && !btn.contains(e.target)) {
+      closeProfilePopover();
+    }
+  }
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (popover.hidden) {
+      closeAllFloatingMenus();
+      // Close settings menu too
+      if (dom.settingsMenu && !dom.settingsMenu.hidden) {
+        dom.settingsMenu.hidden = true;
+        dom.settingsBtn?.setAttribute("aria-expanded", "false");
+      }
+      openProfilePopover();
+      requestAnimationFrame(() => document.addEventListener("click", profileOutsideClick));
+    } else {
+      closeProfilePopover();
+      document.removeEventListener("click", profileOutsideClick);
+    }
+  });
+
+  // Display name: save on blur and Enter
+  document.getElementById("profileDisplayName")?.addEventListener("blur", () => {
+    const input = document.getElementById("profileDisplayName");
+    const val = input?.value.trim() || "";
+    if (val !== state.profile.displayName) {
+      state.profile.displayName = val;
+      renderAvatarBtn();
+      const avatarWrap = document.getElementById("profilePopoverAvatar");
+      if (avatarWrap) { avatarWrap.innerHTML = ""; avatarWrap.appendChild(buildAvatarEl(state.profile, "lg")); }
+      saveProfileToSupabase().then(() => retrackPresence()).catch(console.warn);
+    }
+  });
+  document.getElementById("profileDisplayName")?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { e.preventDefault(); e.target.blur(); }
+  });
+
+  // Color swatches
+  document.getElementById("profileColorSwatches")?.addEventListener("click", (e) => {
+    const swatch = e.target.closest("[data-color]");
+    if (!swatch) return;
+    state.profile.avatarColor = swatch.dataset.color;
+    document.getElementById("profileColorSwatches")?.querySelectorAll("[data-color]").forEach(s => {
+      s.classList.toggle("is-selected", s.dataset.color === state.profile.avatarColor);
+    });
+    const avatarWrap = document.getElementById("profilePopoverAvatar");
+    if (avatarWrap) { avatarWrap.innerHTML = ""; avatarWrap.appendChild(buildAvatarEl(state.profile, "lg")); }
+    renderAvatarBtn();
+    saveProfileToSupabase().then(() => retrackPresence()).catch(console.warn);
+  });
+
+  // Photo upload
+  document.getElementById("profileUploadBtn")?.addEventListener("click", () => {
+    document.getElementById("profilePhotoInput")?.click();
+  });
+  document.getElementById("profilePhotoInput")?.addEventListener("change", async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      toast("Photo must be under 2 MB.", "danger", 2500);
+      e.target.value = "";
+      return;
+    }
+    await uploadAvatarPhoto(file);
+    e.target.value = "";
+  });
+
+  // Preferences
+  document.getElementById("profileThemeToggle")?.addEventListener("click", () => {
+    dom.themeToggle?.click();
+    const newTheme = document.documentElement.getAttribute("data-theme") || "dark";
+    setPref("theme", newTheme);
+    const b = document.getElementById("profileThemeToggle");
+    if (b) {
+      b.setAttribute("aria-pressed", String(newTheme === "dark"));
+      const icon = b.querySelector(".material-symbols-outlined");
+      if (icon) icon.textContent = newTheme === "dark" ? "dark_mode" : "light_mode";
+    }
+  });
+
+  document.getElementById("profileWeekStartToggle")?.addEventListener("click", () => {
+    applyWeekStart(!state.weekStartsOnMonday);
+    setPref("weekStartMonday", state.weekStartsOnMonday);
+    const b = document.getElementById("profileWeekStartToggle");
+    if (b) {
+      b.setAttribute("aria-pressed", String(state.weekStartsOnMonday));
+      const icon = b.querySelector(".material-symbols-outlined");
+      if (icon) icon.textContent = state.weekStartsOnMonday ? "toggle_on" : "toggle_off";
+    }
+  });
+
+  document.getElementById("profileCompactToggle")?.addEventListener("click", () => {
+    dom.compactBarsBtn?.click();
+    const isCompact = document.body.classList.contains("bars-compact");
+    setPref("barsCompact", isCompact);
+    document.getElementById("profileCompactToggle")?.setAttribute("aria-pressed", String(isCompact));
+  });
+
+  // Sign out
+  document.getElementById("profileSignOutBtn")?.addEventListener("click", () => {
+    authSignOut();
   });
 }
 

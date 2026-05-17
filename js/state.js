@@ -75,4 +75,19 @@ const state = {
   mutationId: 0,
   checklistWriteTs: {},
   checklistAbortControllers: {},
+
+  profile: {
+    id: null,
+    email: '',
+    displayName: '',
+    avatarColor: 'oklch(60% 0.15 250)',
+    avatarUrl: '',
+    preferences: {
+      theme: 'dark',
+      weekStartMonday: false,
+      barsCompact: false,
+    },
+  },
+
+  presenceUsers: [],
 };

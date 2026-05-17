@@ -14,7 +14,7 @@
                font-src 'self' https://fonts.gstatic.com;
                connect-src 'self' https://script.google.com https://script.googleusercontent.com https://*.supabase.co wss://*.supabase.co https://cdn.jsdelivr.net;
                frame-src 'self' https://script.google.com https://script.googleusercontent.com;
-               img-src 'self' data:;"
+               img-src 'self' data: https://*.supabase.co;"
     />
     <title>ETB Schedule</title>
     <link
@@ -57,22 +57,60 @@
       <div class="login__card">
         <div class="login__header">
           <img src="assets/logo.png" alt="ETB Dispatch" class="login__logo" />
-          <div class="login__title">Sign in</div>
+          <div id="loginTitle" class="login__title">Sign in</div>
         </div>
-        <form id="loginForm" class="login__form">
-          <div class="form-group">
-            <label for="loginEmail">Email</label>
-            <input id="loginEmail" type="email" autocomplete="email" required
-              placeholder="you@etb.com" />
-          </div>
-          <div class="form-group">
-            <label for="loginPassword">Password</label>
-            <input id="loginPassword" type="password" autocomplete="current-password" required
-              placeholder="••••••••" />
-          </div>
-          <div id="loginError" class="login__error"></div>
-          <button type="submit" id="loginBtn" class="rux-btn rux-btn--primary">Sign in</button>
-        </form>
+
+        <!-- View: sign in -->
+        <div id="loginSignInView">
+          <form id="loginForm" class="login__form">
+            <div class="form-group">
+              <label for="loginEmail">Email</label>
+              <input id="loginEmail" type="email" autocomplete="email" required
+                placeholder="you@etb.com" />
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <input id="loginPassword" type="password" autocomplete="current-password" required
+                placeholder="••••••••" />
+            </div>
+            <div id="loginError" class="login__error"></div>
+            <button type="submit" id="loginBtn" class="rux-btn rux-btn--primary login__action-btn">Sign in</button>
+            <button type="button" id="loginForgotBtn" class="login__forgot">Forgot password?</button>
+          </form>
+        </div>
+
+        <!-- View: forgot password -->
+        <div id="loginForgotView" hidden>
+          <form id="loginForgotForm" class="login__form">
+            <div class="form-group">
+              <label for="loginForgotEmail">Email</label>
+              <input id="loginForgotEmail" type="email" autocomplete="email" required
+                placeholder="you@etb.com" />
+            </div>
+            <div id="loginForgotError" class="login__error"></div>
+            <button type="submit" id="loginResetBtn" class="rux-btn rux-btn--primary login__action-btn">Send reset link</button>
+            <button type="button" id="loginBackBtn" class="login__forgot">Back to sign in</button>
+          </form>
+        </div>
+
+        <!-- View: reset email sent -->
+        <div id="loginResetSentView" hidden>
+          <p class="login__message">Check your inbox for a reset link.</p>
+          <button type="button" id="loginBackBtn2" class="rux-btn rux-btn--primary login__action-btn">Back to sign in</button>
+        </div>
+
+        <!-- View: set new password (recovery token in URL) -->
+        <div id="loginSetPasswordView" hidden>
+          <form id="loginSetPasswordForm" class="login__form">
+            <div class="form-group">
+              <label for="loginNewPassword">New password</label>
+              <input id="loginNewPassword" type="password" autocomplete="new-password" required
+                placeholder="••••••••" minlength="6" />
+            </div>
+            <div id="loginSetPasswordError" class="login__error"></div>
+            <button type="submit" id="loginUpdateBtn" class="rux-btn rux-btn--primary login__action-btn">Update password</button>
+          </form>
+        </div>
       </div>
     </div>
 
@@ -135,6 +173,72 @@
           >
             <span class="material-symbols-outlined">checklist</span>
           </button>
+          <!-- Presence strip -->
+          <div id="presenceStrip" class="presence-strip" hidden aria-label="Online users" role="status"></div>
+
+          <!-- Profile avatar + popover -->
+          <div class="dropdown" id="profileMenuWrap">
+            <button
+              id="avatarBtn"
+              class="rux-btn rux-btn--square"
+              type="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-label="My profile"
+            ></button>
+            <div id="profilePopover" class="dropdown__menu profile-popover" hidden>
+              <div class="profile-popover__header">
+                <div id="profilePopoverAvatar"></div>
+                <div class="profile-popover__identity">
+                  <input id="profileDisplayName" class="profile-popover__name-input"
+                    type="text" maxlength="40" autocomplete="off" placeholder="Display name" />
+                  <div id="profileEmail" class="profile-popover__email"></div>
+                </div>
+              </div>
+              <hr class="dropdown__divider" />
+              <div class="profile-popover__section">
+                <div class="profile-popover__section-title">Color</div>
+                <div id="profileColorSwatches" class="profile-color-swatches" role="group" aria-label="Avatar color"></div>
+              </div>
+              <hr class="dropdown__divider" />
+              <div class="profile-popover__section">
+                <div class="profile-popover__section-title">Photo</div>
+                <button type="button" id="profileUploadBtn" class="rux-btn profile-upload-btn">
+                  <span class="material-symbols-outlined">upload</span>
+                  Upload photo
+                </button>
+                <input id="profilePhotoInput" type="file" accept="image/jpeg,image/png,image/webp" class="sr-file-input" />
+              </div>
+              <hr class="dropdown__divider" />
+              <div class="profile-popover__section">
+                <div class="profile-popover__section-title">Preferences</div>
+                <div class="profile-pref-row">
+                  <span>Dark theme</span>
+                  <button type="button" id="profileThemeToggle" class="rux-btn rux-btn--square" aria-pressed="true">
+                    <span class="material-symbols-outlined">dark_mode</span>
+                  </button>
+                </div>
+                <div class="profile-pref-row">
+                  <span>Week starts Monday</span>
+                  <button type="button" id="profileWeekStartToggle" class="rux-btn rux-btn--square" aria-pressed="false">
+                    <span class="material-symbols-outlined">toggle_off</span>
+                  </button>
+                </div>
+                <div class="profile-pref-row">
+                  <span>Compact bars</span>
+                  <button type="button" id="profileCompactToggle" class="rux-btn rux-btn--square" aria-pressed="false">
+                    <span class="material-symbols-outlined">unfold_less</span>
+                  </button>
+                </div>
+              </div>
+              <hr class="dropdown__divider" />
+              <button type="button" id="profileSignOutBtn" class="dropdown__item">
+                <span class="dropdown__icon material-symbols-outlined">logout</span>
+                Sign out
+              </button>
+            </div>
+          </div>
+
           <div class="dropdown">
             <button
               id="settingsBtn"
@@ -2337,6 +2441,7 @@
     <script src="js/reports.js?v=1" defer></script>
     <script src="js/context-menu.js?v=1" defer></script>
     <script src="js/glass-select.js?v=1" defer></script>
+    <script src="js/profile.js?v=1" defer></script>
     <script src="js/events.js?v=1" defer></script>
     <script src="js/week.js?v=1" defer></script>
     <script src="js/auth.js?v=1" defer></script>

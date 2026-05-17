@@ -90,7 +90,30 @@
   padding: var(--login-error-padding);
 }
 
-#loginBtn {
+.login__action-btn {
   margin-top: var(--rux-space-1);
   width: 100%;
+}
+
+.login__forgot {
+  width: 100%;
+  padding: var(--rux-space-2) 0;
+  background: none;
+  border: none;
+  color: var(--rux-text-3);
+  font-size: var(--rux-size-3);
+  text-align: center;
+  cursor: pointer;
+}
+
+.login__forgot:hover {
+  color: var(--rux-text-2);
+}
+
+.login__message {
+  font-size: var(--rux-size-4);
+  color: var(--rux-text-2);
+  text-align: center;
+  line-height: var(--rux-line-height-4);
+  margin: 0 0 var(--rux-space-5);
 }
